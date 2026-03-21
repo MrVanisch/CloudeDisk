@@ -11,9 +11,9 @@ const nextConfig: NextConfig = {
     ];
   },
   experimental: {
-    middlewareClientMaxBodySize: '50mb',
+    middlewareClientMaxBodySize: '1gb',
     serverActions: {
-      bodySizeLimit: '50mb',
+      bodySizeLimit: '1gb',
     },
   },
 };
