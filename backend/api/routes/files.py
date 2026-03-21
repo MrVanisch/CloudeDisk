@@ -102,7 +102,8 @@ def download_file(
         raise HTTPException(status_code=404, detail="File data missing on disk")
         
     headers = {
-        'Content-Disposition': f'attachment; filename="{file.original_filename}"'
+        'Content-Disposition': f'attachment; filename="{file.original_filename}"',
+        'Content-Length': str(file.size_bytes)
     }
     return StreamingResponse(decrypt_stream(filepath), media_type=file.mime_type, headers=headers)
 
@@ -211,6 +212,7 @@ def download_shared_file(
         raise HTTPException(status_code=404, detail="File data missing on disk")
         
     headers = {
-        'Content-Disposition': f'attachment; filename="{file.original_filename}"'
+        'Content-Disposition': f'attachment; filename="{file.original_filename}"',
+        'Content-Length': str(file.size_bytes)
     }
     return StreamingResponse(decrypt_stream(filepath), media_type=file.mime_type, headers=headers)
