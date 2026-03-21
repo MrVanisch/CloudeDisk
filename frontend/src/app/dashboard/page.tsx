@@ -167,7 +167,26 @@ export default function DashboardPage() {
     const handleCopyLink = async () => {
         if (!shareModal) return;
         try {
-            await navigator.clipboard.writeText(shareModal.url);
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(shareModal.url);
+            } else {
+                // Fallback for non-HTTPS (VPS IP)
+                const textArea = document.createElement("textarea");
+                textArea.value = shareModal.url;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Fallback copy failed', err);
+                }
+                document.body.removeChild(textArea);
+            }
+            
             setCopied(true);
             setTimeout(() => {
                 setShareModal(null);
