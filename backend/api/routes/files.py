@@ -73,7 +73,7 @@ async def upload_file(
     
     return db_file
 
-@router.get("/", response_model=List[FileResponse])
+@router.get("", response_model=List[FileResponse])
 def list_files(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -173,7 +173,7 @@ def share_file(
         
     return {
         "share_token": file.share_token,
-        "share_url": f"http://localhost:8000/api/v1/files/shared/{file.share_token}"
+        "share_url": f"/api/v1/files/shared/{file.share_token}"
     }
 
 @router.post("/{file_id}/unshare", response_model=FileResponse)
