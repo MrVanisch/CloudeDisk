@@ -19,6 +19,7 @@ COPY . .
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
+
 # Create storage directory with appropriate permissions
 RUN mkdir -p /app/storage
 RUN chmod 777 /app/storage
