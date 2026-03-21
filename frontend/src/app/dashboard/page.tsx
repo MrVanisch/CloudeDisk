@@ -137,7 +137,13 @@ export default function DashboardPage() {
             } else {
                 const res = await api.post(`/files/${fileId}/share`);
                 loadFiles();
-                setShareModal({ isOpen: true, url: res.data.share_url });
+                
+                // Construct absolute URL for sharing
+                const shareUrl = res.data.share_url.startsWith('/') 
+                    ? `${window.location.origin}${res.data.share_url}` 
+                    : res.data.share_url;
+                
+                setShareModal({ isOpen: true, url: shareUrl });
                 setCopied(false);
             }
         } catch (err) {
