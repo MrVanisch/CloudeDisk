@@ -34,6 +34,8 @@ export default function DashboardPage() {
     const [shareModal, setShareModal] = useState<{isOpen: boolean, url: string} | null>(null);
     const [copied, setCopied] = useState(false);
     const [deleteModal, setDeleteModal] = useState<number | null>(null);
+    const [downloadingId, setDownloadingId] = useState<number | null>(null);
+    const [downloadProgress, setDownloadProgress] = useState(0);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -99,9 +101,17 @@ export default function DashboardPage() {
     };
 
     const handleDownload = async (fileId: number, filename: string) => {
+        setDownloadingId(fileId);
+        setDownloadProgress(0);
         try {
             const response = await api.get(`/files/download/${fileId}`, {
                 responseType: 'blob',
+                onDownloadProgress: (progressEvent) => {
+                    if (progressEvent.total) {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        setDownloadProgress(percentCompleted);
+                    }
+                },
             });
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -113,6 +123,9 @@ export default function DashboardPage() {
             link.parentNode?.removeChild(link);
         } catch (err) {
             alert('Failed to download file');
+        } finally {
+            setDownloadingId(null);
+            setDownloadProgress(0);
         }
     };
 
@@ -379,6 +392,14 @@ export default function DashboardPage() {
                                                                 </span>
                                                             </>
                                                         )}
+                                                        {downloadingId === file.id && (
+                                                            <>
+                                                                <span className="w-1 h-1 bg-slate-700 rounded-full" />
+                                                                <span className="text-emerald-500 animate-pulse flex items-center gap-1">
+                                                                    <Download className="w-3 h-3" /> Downloading {downloadProgress}%
+                                                                </span>
+                                                            </>
+                                                        )}
                                                         {file.share_token && (
                                                             <>
                                                                 <span className="w-1 h-1 bg-slate-700 rounded-full" />
@@ -409,10 +430,11 @@ export default function DashboardPage() {
                                                 </button>
                                                 <button
                                                     onClick={() => handleDownload(file.id, file.original_filename)}
-                                                    className="p-2.5 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all active:scale-90"
+                                                    disabled={downloadingId === file.id}
+                                                    className={`p-2.5 hover:bg-white/5 rounded-xl transition-all active:scale-90 ${downloadingId === file.id ? 'text-emerald-500' : 'text-slate-400 hover:text-white'}`}
                                                     title="Decrypt & Download"
                                                 >
-                                                    <Download className="w-4 h-4" />
+                                                    <Download className={`w-4 h-4 ${downloadingId === file.id ? 'animate-bounce' : ''}`} />
                                                 </button>
                                                 <button
                                                     onClick={() => setDeleteModal(file.id)}
