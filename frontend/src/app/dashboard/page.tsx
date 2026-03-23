@@ -224,42 +224,15 @@ export default function DashboardPage() {
     const getAvailableFormats = (filename: string) => {
         const ext = filename.split('.').pop()?.toLowerCase() || '';
         
-        const imageExts = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'];
-        const videoExts = ['mp4', 'webm', 'avi', 'mov', 'mkv'];
-        const audioExts = ['mp3', 'wav', 'ogg', 'm4a', 'flac'];
-
-        if (imageExts.includes(ext)) {
+        // Strictly allow only MP4 -> MP3 for now as per requirements
+        if (ext === 'mp4') {
             return [
-                { id: 'png', label: 'PNG Image', icon: <ImageIcon className="w-4 h-4" /> },
-                { id: 'jpg', label: 'JPEG Image', icon: <ImageIcon className="w-4 h-4" /> },
-                { id: 'webp', label: 'WebP Next-Gen', icon: <ImageIcon className="w-4 h-4" /> },
-                { id: 'gif', label: 'GIF Animation', icon: <ImageIcon className="w-4 h-4" /> },
-            ];
-        }
-
-        if (videoExts.includes(ext)) {
-            return [
-                { id: 'mp4', label: 'MP4 Video', icon: <VideoIcon className="w-4 h-4" /> },
-                { id: 'webm', label: 'WebM Video', icon: <VideoIcon className="w-4 h-4" /> },
-                { id: 'gif', label: 'GIF Animation', icon: <ImageIcon className="w-4 h-4" /> },
                 { id: 'mp3', label: 'MP3 Extract', icon: <MusicIcon className="w-4 h-4" /> },
             ];
         }
 
-        if (audioExts.includes(ext)) {
-            return [
-                { id: 'mp3', label: 'MP3 Audio', icon: <MusicIcon className="w-4 h-4" /> },
-                { id: 'wav', label: 'WAV Lossless', icon: <MusicIcon className="w-4 h-4" /> },
-                { id: 'ogg', label: 'OGG Vorbis', icon: <MusicIcon className="w-4 h-4" /> },
-                { id: 'm4a', label: 'M4A Apple', icon: <MusicIcon className="w-4 h-4" /> },
-            ];
-        }
-
-        // Default fallback
-        return [
-            { id: 'png', label: 'PNG Image', icon: <ImageIcon className="w-4 h-4" /> },
-            { id: 'jpg', label: 'JPEG Image', icon: <ImageIcon className="w-4 h-4" /> },
-        ];
+        // For all other formats, return empty array to disable conversion UI
+        return [];
     };
 
     const formatBytes = (bytes: number) => {

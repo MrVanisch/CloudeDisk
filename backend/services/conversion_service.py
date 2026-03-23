@@ -38,9 +38,15 @@ def process_conversion(file_id: int, target_format: str):
         temp_output_filename = f"temp_out_{uuid.uuid4()}.{target_format}"
         temp_output_filepath = os.path.join(UPLOAD_DIR, temp_output_filename)
         
+        # Validation: Only allow MP4 -> MP3 for now
+        ext = file.original_filename.split('.')[-1].lower()
+        if ext != 'mp4' or target_format != 'mp3':
+            raise Exception(f"Unsupported conversion: {ext} to {target_format}. Only MP4 to MP3 is allowed.")
+
         # ffmpeg throws an exception if it fails (e.g. unknown format)
+        # We add vn=True to disable video and extract only audio
         stream = ffmpeg.input(temp_input_filepath)
-        stream = ffmpeg.output(stream, temp_output_filepath)
+        stream = ffmpeg.output(stream, temp_output_filepath, vn=True)
         ffmpeg.run(stream, overwrite_output=True, quiet=True)
         
         # 3. Encrypt the newly converted file
@@ -55,7 +61,7 @@ def process_conversion(file_id: int, target_format: str):
         
         # 5. Update DB record to point to new file
         new_size = os.path.getsize(new_stored_filepath)
-        
+
         # Note: In a real app we'd determine the mime_type dynamically,
         # here we'll do a simple fallback based on the extension
         file.original_filename = f"{file.original_filename.rsplit('.', 1)[0]}.{target_format}"
