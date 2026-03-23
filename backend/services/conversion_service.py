@@ -70,6 +70,10 @@ def process_conversion(file_id: int, target_format: str):
         file.conversion_status = ConversionStatus.COMPLETED
         db.commit()
             
+    except ffmpeg.Error as e:
+        print(f"FFmpeg conversion failed: {e.stderr.decode() if e.stderr else str(e)}")
+        file.conversion_status = ConversionStatus.FAILED
+        db.commit()
     except Exception as e:
         print(f"Conversion failed: {e}")
         file.conversion_status = ConversionStatus.FAILED
