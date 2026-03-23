@@ -22,6 +22,10 @@ class Ticket(Base):
     user = relationship("models.user.User", backref="tickets")
     messages = relationship("TicketMessage", back_populates="ticket", cascade="all, delete-orphan")
 
+    @property
+    def messages_count(self) -> int:
+        return len(self.messages)
+
 class TicketMessage(Base):
     __tablename__ = "ticket_messages"
 

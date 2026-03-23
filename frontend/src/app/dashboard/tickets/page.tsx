@@ -141,8 +141,9 @@ export default function TicketsPage() {
             setIsCreateModalOpen(false);
             setNewSubject('');
             loadTickets();
-        } catch (err) {
-            alert('Failed to create ticket');
+        } catch (err: any) {
+            console.error('Failed to create ticket', err);
+            alert(err.response?.data?.detail || 'Failed to create ticket');
         }
     };
 
