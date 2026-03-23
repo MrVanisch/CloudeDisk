@@ -44,9 +44,10 @@ def process_conversion(file_id: int, target_format: str):
             raise Exception(f"Unsupported conversion: {ext} to {target_format}. Only MP4 to MP3 is allowed.")
 
         # ffmpeg throws an exception if it fails (e.g. unknown format)
-        # We add vn=None to disable video and extract only audio (flag without value)
-        stream = ffmpeg.input(temp_input_filepath)
-        stream = ffmpeg.output(stream, temp_output_filepath, vn=None)
+        # We select only the audio stream and force the mp3 codec for a robust conversion
+        input_stream = ffmpeg.input(temp_input_filepath)
+        audio_stream = input_stream.audio
+        stream = ffmpeg.output(audio_stream, temp_output_filepath, acodec='libmp3lame', audio_bitrate='192k')
         ffmpeg.run(stream, overwrite_output=True, quiet=True)
         
         # 3. Encrypt the newly converted file
