@@ -16,6 +16,21 @@ export default function RegisterPage() {
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const router = useRouter();
 
+    const allowedDomains = [
+        'gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 
+        'aol.com', 'protonmail.com', 'pm.me', 'zoho.com', 'yandex.com', 'mail.com',
+        'wp.pl', 'onet.pl', 'o2.pl', 'interia.pl', 'gazeta.pl', 'tlen.pl', 'vp.pl'
+    ];
+
+    const hasMinLength = password.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isPasswordValid = hasMinLength && hasUpperCase && hasSpecialChar;
+
+    const emailDomain = email.split('@')[1]?.toLowerCase();
+    const isEmailDomainValid = email.includes('@') && emailDomain && allowedDomains.includes(emailDomain);
+    const emailTouched = email.length > 0;
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
@@ -86,11 +101,16 @@ export default function RegisterPage() {
                                         id="email"
                                         type="email"
                                         required
-                                        className="input-field"
-                                        placeholder="name@company.com"
+                                        className={`input-field ${emailTouched && !isEmailDomainValid ? 'border-red-500/50 focus:border-red-500/50' : ''}`}
+                                        placeholder="name@gmail.com"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
+                                    {emailTouched && !isEmailDomainValid && (
+                                        <p className="text-xs text-red-400 mt-2 font-medium flex items-center gap-1">
+                                            <AlertCircle className="w-3 h-3" /> Please use a known provider (e.g. Gmail, WP, Outlook)
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -101,13 +121,27 @@ export default function RegisterPage() {
                                         id="password"
                                         type="password"
                                         required
-                                        minLength={8}
                                         className="input-field"
-                                        placeholder="Min. 8 characters"
+                                        placeholder="Military-grade password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
-                                    <p className="text-[10px] text-slate-600 mt-3 font-bold uppercase tracking-widest ml-1">Must be military-grade strength</p>
+                                    
+                                    <div className="mt-3 space-y-1.5 bg-black/20 p-3 rounded-lg border border-white/5">
+                                        <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-2">Password Requirements</p>
+                                        <div className={`flex items-center gap-2 text-xs font-semibold ${hasMinLength ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                            <CheckCircle2 className={`w-3.5 h-3.5 ${hasMinLength ? 'opacity-100' : 'opacity-30'}`} />
+                                            <span>At least 8 characters</span>
+                                        </div>
+                                        <div className={`flex items-center gap-2 text-xs font-semibold ${hasUpperCase ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                            <CheckCircle2 className={`w-3.5 h-3.5 ${hasUpperCase ? 'opacity-100' : 'opacity-30'}`} />
+                                            <span>One uppercase letter</span>
+                                        </div>
+                                        <div className={`flex items-center gap-2 text-xs font-semibold ${hasSpecialChar ? 'text-emerald-400' : 'text-slate-400'}`}>
+                                            <CheckCircle2 className={`w-3.5 h-3.5 ${hasSpecialChar ? 'opacity-100' : 'opacity-30'}`} />
+                                            <span>One special character (!@#$)</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div className="flex justify-center mt-2">
@@ -120,8 +154,8 @@ export default function RegisterPage() {
 
                                 <button
                                     type="submit"
-                                    disabled={isLoading || !captchaToken}
-                                    className="btn-primary w-full py-4 mt-6 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center group relative overflow-hidden"
+                                    disabled={isLoading || !captchaToken || !isPasswordValid || !isEmailDomainValid}
+                                    className="btn-primary w-full py-4 mt-6 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center group relative overflow-hidden transition-all duration-300"
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
                                     {isLoading ? (
