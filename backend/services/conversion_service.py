@@ -55,13 +55,16 @@ def process_conversion(file_id: int, target_format: str):
         new_stored_filepath = os.path.join(UPLOAD_DIR, new_stored_filename)
         encrypt_file(temp_output_filepath, new_stored_filepath)
         
-        # 4. Clean up temporary files AND the old encrypted file
+        # 4. Measure the UNENCRYPTED size BEFORE cleaning up temporary files
+        # This ensures the Content-Length matches the decrypted stream length during download
+        new_size = os.path.getsize(temp_output_filepath)
+        
+        # 5. Clean up temporary files AND the old encrypted file
         os.remove(temp_input_filepath)
         os.remove(temp_output_filepath)
         os.remove(stored_filepath)
         
-        # 5. Update DB record to point to new file
-        new_size = os.path.getsize(new_stored_filepath)
+        # 6. Update DB record to point to new file
 
         # Note: In a real app we'd determine the mime_type dynamically,
         # here we'll do a simple fallback based on the extension
