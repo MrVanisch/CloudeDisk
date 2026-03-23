@@ -15,6 +15,9 @@ export default function Home() {
           <span className="font-bold text-xl tracking-tight font-display">CloudVault<span className="text-[var(--accent)]">.</span></span>
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
+          <Link href="/mp3/converter" className="text-sm font-semibold text-slate-400 hover:text-[var(--accent)] transition-colors hidden sm:block">
+            MP3 Converter
+          </Link>
           <Link href="/support" className="text-sm font-semibold text-slate-400 hover:text-[var(--accent)] transition-colors hidden sm:block">
             Support
           </Link>
@@ -45,7 +48,7 @@ export default function Home() {
             <Link href="/auth/register" className="btn-primary text-lg px-10 py-5">
               Start for free <Zap className="w-5 h-5" />
             </Link>
-            <button 
+            <button
               onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}
               className="glass glass-hover text-lg px-10 py-5 font-bold rounded-xl"
             >
