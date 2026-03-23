@@ -88,7 +88,7 @@ export default function TicketsPage() {
     const loadTickets = async () => {
         setLoadingTickets(true);
         try {
-            const endpoint = user?.is_superuser ? '/admin/tickets' : '/tickets/';
+            const endpoint = user?.is_superuser ? '/admin/tickets' : '/tickets';
             const response = await api.get(endpoint);
             setTickets(response.data);
         } catch (err) {
@@ -137,7 +137,7 @@ export default function TicketsPage() {
         if (!newSubject.trim()) return;
         
         try {
-            await api.post('/tickets/', { subject: newSubject });
+            await api.post('/tickets', { subject: newSubject });
             setIsCreateModalOpen(false);
             setNewSubject('');
             loadTickets();

@@ -12,7 +12,7 @@ import secrets
 
 router = APIRouter()
 
-@router.get("/", response_model=List[TicketResponse])
+@router.get("", response_model=List[TicketResponse])
 def get_my_tickets(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
@@ -23,7 +23,7 @@ def get_my_tickets(
     tickets = db.query(Ticket).filter(Ticket.user_id == current_user.id).order_by(desc(Ticket.created_at)).all()
     return tickets
 
-@router.post("/", response_model=TicketResponse)
+@router.post("", response_model=TicketResponse)
 def create_ticket(
     ticket_in: TicketCreate,
     db: Session = Depends(get_db),
