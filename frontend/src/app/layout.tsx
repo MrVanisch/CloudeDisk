@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
+import { LanguageProvider } from '@/lib/LanguageContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${outfit.variable} font-sans antialiased min-h-screen flex flex-col`}>
-        <main className="flex-1 flex flex-col">
-          {children}
-        </main>
+        <LanguageProvider>
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+        </LanguageProvider>
       </body>
     </html>
   );
