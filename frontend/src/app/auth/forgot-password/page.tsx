@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { HardDrive, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function ForgotPasswordPage() {
+    const { t } = useLanguage();
     const [email, setEmail] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -25,7 +27,7 @@ export default function ForgotPasswordPage() {
                 router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
             }, 2500);
         } catch (err: any) {
-            setError(err.response?.data?.detail || 'Something went wrong. Please try again.');
+            setError(err.response?.data?.detail || t('auth.login.error'));
         } finally {
             setIsLoading(false);
         }
@@ -49,16 +51,16 @@ export default function ForgotPasswordPage() {
                             <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                             </div>
-                            <h2 className="text-2xl font-black mb-2 font-display tracking-tight">Code Sent!</h2>
+                            <h2 className="text-2xl font-black mb-2 font-display tracking-tight">{t('auth.forgot.codeSent')}</h2>
                             <p className="text-sm text-slate-400 font-medium">
-                                If the email exists securely in our database, a 6-digit code has been sent.
+                                {t('auth.forgot.codeSentDesc')}
                             </p>
-                            <p className="text-xs text-slate-500 mt-4 animate-pulse">Redirecting to next step...</p>
+                            <p className="text-xs text-slate-500 mt-4 animate-pulse">{t('auth.forgot.redirecting')}</p>
                         </div>
                     ) : (
                         <>
-                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">Recover Vault</h2>
-                            <p className="text-slate-400 text-center mb-8 font-medium">Enter your email to receive a secure recovery code</p>
+                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">{t('auth.forgot.title')}</h2>
+                            <p className="text-slate-400 text-center mb-8 font-medium">{t('auth.forgot.subtitle')}</p>
 
                             {error && (
                                 <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl p-4 mb-6 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
@@ -70,14 +72,14 @@ export default function ForgotPasswordPage() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="email">
-                                        Vault Email Vector
+                                        {t('auth.forgot.emailLabel')}
                                     </label>
                                     <input
                                         id="email"
                                         type="email"
                                         required
                                         className="input-field"
-                                        placeholder="name@company.com"
+                                        placeholder={t('auth.login.emailPlaceholder')}
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
@@ -92,7 +94,7 @@ export default function ForgotPasswordPage() {
                                     {isLoading ? (
                                         <RefreshCw className="w-6 h-6 animate-spin" />
                                     ) : (
-                                        'Request Recovery Code'
+                                        t('auth.forgot.btnText')
                                     )}
                                 </button>
                             </form>
@@ -100,7 +102,7 @@ export default function ForgotPasswordPage() {
                             <div className="mt-8 text-center text-sm">
                                 <Link href="/auth/login" className="text-slate-500 hover:text-white font-medium transition-colors flex items-center justify-center gap-2">
                                     <RefreshCw className="w-4 h-4 rotate-180" />
-                                    Return to Authentication
+                                    {t('auth.forgot.returnLogin')}
                                 </Link>
                             </div>
                         </>

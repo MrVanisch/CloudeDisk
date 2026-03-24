@@ -6,8 +6,10 @@ import Link from 'next/link';
 import { HardDrive, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function RegisterPage() {
+    const { t } = useLanguage();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -51,9 +53,9 @@ export default function RegisterPage() {
             if (err.response?.status === 400) {
                 setError(err.response.data.detail || 'Registration failed');
             } else if (err.response?.status === 422) {
-                setError('Invalid input format');
+                setError(t('auth.register.invalidFormat'));
             } else {
-                setError('Something went wrong. Please try again later.');
+                setError(t('auth.login.error'));
             }
         } finally {
             setIsLoading(false);
@@ -77,13 +79,13 @@ export default function RegisterPage() {
                             <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                                 <CheckCircle2 className="w-10 h-10 text-emerald-500" />
                             </div>
-                            <h2 className="text-3xl font-black mb-2 font-display tracking-tight">Vault Created</h2>
-                            <p className="text-slate-400 font-medium">Initializing your secure workspace...</p>
+                            <h2 className="text-3xl font-black mb-2 font-display tracking-tight">{t('auth.register.vaultCreated')}</h2>
+                            <p className="text-slate-400 font-medium">{t('auth.register.vaultInitializing')}</p>
                         </div>
                     ) : (
                         <>
-                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">Create Account</h2>
-                            <p className="text-slate-400 text-center mb-10 font-medium">Join the zero-knowledge revolution</p>
+                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">{t('auth.register.title')}</h2>
+                            <p className="text-slate-400 text-center mb-10 font-medium">{t('auth.register.subtitle')}</p>
 
                             {error && (
                                 <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl p-4 mb-8 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
@@ -95,7 +97,7 @@ export default function RegisterPage() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="email">
-                                        Email Address
+                                        {t('auth.login.emailLabel')}
                                     </label>
                                     <input
                                         id="email"
@@ -108,38 +110,38 @@ export default function RegisterPage() {
                                     />
                                     {emailTouched && !isEmailDomainValid && (
                                         <p className="text-xs text-red-400 mt-2 font-medium flex items-center gap-1">
-                                            <AlertCircle className="w-3 h-3" /> Please use a known provider (e.g. Gmail, WP, Outlook)
+                                            <AlertCircle className="w-3 h-3" /> {t('auth.register.emailWarn')}
                                         </p>
                                     )}
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="password">
-                                        Vault Password
+                                        {t('auth.login.passLabel')}
                                     </label>
                                     <input
                                         id="password"
                                         type="password"
                                         required
                                         className="input-field"
-                                        placeholder="Military-grade password"
+                                        placeholder={t('auth.reset.militaryGrade')}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                     
                                     <div className="mt-3 space-y-1.5 bg-black/20 p-3 rounded-lg border border-white/5">
-                                        <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-2">Password Requirements</p>
+                                        <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-2">{t('auth.register.passRequirementsLabel')}</p>
                                         <div className={`flex items-center gap-2 text-xs font-semibold ${hasMinLength ? 'text-emerald-400' : 'text-slate-400'}`}>
                                             <CheckCircle2 className={`w-3.5 h-3.5 ${hasMinLength ? 'opacity-100' : 'opacity-30'}`} />
-                                            <span>At least 8 characters</span>
+                                            <span>{t('auth.register.reqLength')}</span>
                                         </div>
                                         <div className={`flex items-center gap-2 text-xs font-semibold ${hasUpperCase ? 'text-emerald-400' : 'text-slate-400'}`}>
                                             <CheckCircle2 className={`w-3.5 h-3.5 ${hasUpperCase ? 'opacity-100' : 'opacity-30'}`} />
-                                            <span>One uppercase letter</span>
+                                            <span>{t('auth.register.reqUpper')}</span>
                                         </div>
                                         <div className={`flex items-center gap-2 text-xs font-semibold ${hasSpecialChar ? 'text-emerald-400' : 'text-slate-400'}`}>
                                             <CheckCircle2 className={`w-3.5 h-3.5 ${hasSpecialChar ? 'opacity-100' : 'opacity-30'}`} />
-                                            <span>One special character (!@#$)</span>
+                                            <span>{t('auth.register.reqSpecial')}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -161,15 +163,15 @@ export default function RegisterPage() {
                                     {isLoading ? (
                                         <RefreshCw className="w-6 h-6 animate-spin" />
                                     ) : (
-                                        'Create Secure Vault'
+                                        t('auth.register.btnText')
                                     )}
                                 </button>
                             </form>
 
                             <div className="mt-10 text-center text-sm text-slate-500 font-medium">
-                                Already have a vault?{' '}
+                                {t('auth.register.hasAccountDesc')}
                                 <Link href="/auth/login" className="text-[var(--accent)] hover:text-[var(--accent-hover)] font-black transition-colors">
-                                    Sign In
+                                    {t('auth.register.signInLink')}
                                 </Link>
                             </div>
                         </>

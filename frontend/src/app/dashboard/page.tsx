@@ -10,6 +10,7 @@ import {
     Trash2, Download, Share2, Shield, RefreshCw, X, Lock,
     Image as ImageIcon, Video as VideoIcon, Music as MusicIcon, ChevronRight, Copy, CheckCircle2
 } from 'lucide-react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 interface FileItem {
     id: number;
@@ -22,6 +23,7 @@ interface FileItem {
 }
 
 export default function DashboardPage() {
+    const { t } = useLanguage();
     const { user, isAuthenticated, isLoading, checkAuth, logout } = useAuthStore();
     const router = useRouter();
 
@@ -264,12 +266,12 @@ export default function DashboardPage() {
                 </div>
                 <div className="flex items-center gap-4">
                     {user.is_superuser && (
-                        <span className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0.5 rounded-full border border-red-500/20 font-black tracking-widest">ADMIN</span>
+                        <span className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0.5 rounded-full border border-red-500/20 font-black tracking-widest">{t('dashboard.nav.adminBadge')}</span>
                     )}
                     <div className="flex flex-col items-end hidden sm:flex mr-4">
                         <span className="text-xs font-bold text-slate-300">{user.email}</span>
                         <Link href="/dashboard/tickets" className="text-[10px] text-[var(--accent)] uppercase tracking-wider font-black hover:text-[var(--accent-hover)] transition-colors">
-                            Support Hub
+                            {t('dashboard.nav.supportHub')}
                         </Link>
                     </div>
                     <button onClick={handleLogout} className="p-2 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all active:scale-90">
@@ -284,11 +286,11 @@ export default function DashboardPage() {
                     <div className="glass p-8 md:col-span-1 flex flex-col h-full overflow-hidden">
                         <h3 className="font-bold mb-6 flex items-center gap-2 font-display text-lg">
                             <Shield className="w-5 h-5 text-[var(--accent)]" />
-                            Storage Status
+                            {t('dashboard.storage.title')}
                         </h3>
                         <div className="space-y-4">
                             <div className="flex justify-between text-sm font-medium">
-                                <span className="text-slate-400">Encrypted Space</span>
+                                <span className="text-slate-400">{t('dashboard.storage.encryptedSpace')}</span>
                                 <span className="text-white">{formatBytes(user.current_storage_used)} / {formatBytes(storageLimit)}</span>
                             </div>
                             <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden border border-white/5">
@@ -298,7 +300,7 @@ export default function DashboardPage() {
                                 ></div>
                             </div>
                             <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest text-center pt-2">
-                                {storagePercentage.toFixed(1)}% Capacity Used
+                                {storagePercentage.toFixed(1)}% {t('dashboard.storage.capacityUsed')}
                             </p>
                         </div>
 
@@ -318,17 +320,17 @@ export default function DashboardPage() {
                                 {isUploading ? (
                                     <>
                                         <RefreshCw className="w-5 h-5 animate-spin" />
-                                        <span>Encrypting {uploadProgress}%</span>
+                                        <span>{t('dashboard.storage.encrypting')} {uploadProgress}%</span>
                                     </>
                                 ) : (
                                     <>
                                         <Upload className="w-5 h-5" />
-                                        <span>Secure Upload</span>
+                                        <span>{t('dashboard.storage.uploadBtn')}</span>
                                     </>
                                 )}
                             </button>
                             <p className="text-[10px] text-slate-600 text-center mt-4 flex items-center justify-center gap-2 font-bold uppercase tracking-tighter">
-                                <Lock className="w-3 h-3" /> Zero-Knowledge Fernet Architecture
+                                <Lock className="w-3 h-3" /> {t('dashboard.storage.zeroKnowledge')}
                             </p>
                         </div>
                     </div>
@@ -336,9 +338,9 @@ export default function DashboardPage() {
                     {/* File List */}
                     <div className="glass p-8 md:col-span-2 flex flex-col min-h-[500px]">
                         <div className="flex justify-between items-center mb-8">
-                            <h3 className="font-bold font-display text-lg">My Encrypted Vault ({files.length})</h3>
+                            <h3 className="font-bold font-display text-lg">{t('dashboard.vault.title')} ({files.length})</h3>
                             <button onClick={loadFiles} className="text-slate-400 hover:text-[var(--accent)] transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 active:scale-95">
-                                <RefreshCw className="w-4 h-4" /> Sync Now
+                                <RefreshCw className="w-4 h-4" /> {t('dashboard.vault.syncNow')}
                             </button>
                         </div>
 
@@ -348,8 +350,8 @@ export default function DashboardPage() {
                                     <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
                                         <FileIcon className="w-10 h-10 opacity-20" />
                                     </div>
-                                    <p className="font-medium tracking-tight">Your vault is empty.</p>
-                                    <p className="text-xs uppercase tracking-widest mt-2">Upload a file to begin encryption</p>
+                                    <p className="font-medium tracking-tight">{t('dashboard.vault.emptyTitle')}</p>
+                                    <p className="text-xs uppercase tracking-widest mt-2">{t('dashboard.vault.emptyDesc')}</p>
                                 </div>
                             ) : (
                                 <div className="space-y-4">
@@ -388,7 +390,7 @@ export default function DashboardPage() {
                                                             <>
                                                                 <span className="w-1 h-1 bg-slate-700 rounded-full" />
                                                                 <span className="text-emerald-500 animate-pulse flex items-center gap-1">
-                                                                    <Download className="w-3 h-3" /> Downloading {downloadProgress}%
+                                                                    <Download className="w-3 h-3" /> {t('dashboard.vault.downloading')} {downloadProgress}%
                                                                 </span>
                                                             </>
                                                         )}
@@ -396,7 +398,7 @@ export default function DashboardPage() {
                                                             <>
                                                                 <span className="w-1 h-1 bg-slate-700 rounded-full" />
                                                                 <span className="text-[var(--accent)] flex items-center gap-1">
-                                                                    <Share2 className="w-3 h-3" /> Shared Vault
+                                                                    <Share2 className="w-3 h-3" /> {t('dashboard.vault.sharedVault')}
                                                                 </span>
                                                             </>
                                                         )}
@@ -409,7 +411,7 @@ export default function DashboardPage() {
                                                     onClick={() => handleConvertClick(file)}
                                                     disabled={convertingId === file.id || ['PENDING', 'PROCESSING'].includes(file.conversion_status)}
                                                     className="p-2.5 text-slate-400 hover:text-[var(--accent)] hover:bg-white/5 rounded-xl transition-all active:scale-90"
-                                                    title="Convert Vault Entry"
+                                                    title={t('dashboard.vault.modalConvertTitle')}
                                                 >
                                                     <RefreshCw className={`w-4 h-4 ${convertingId === file.id ? 'animate-spin' : ''}`} />
                                                 </button>
@@ -431,7 +433,7 @@ export default function DashboardPage() {
                                                 <button
                                                     onClick={() => setDeleteModal(file.id)}
                                                     className="p-2.5 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all active:scale-90"
-                                                    title="Destroy Entry"
+                                                    title={t('dashboard.vault.deleteTitle')}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
@@ -463,7 +465,7 @@ export default function DashboardPage() {
                                 <RefreshCw className="w-6 h-6 text-[var(--accent)]" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black font-display tracking-tight">Convert Vault Entry</h3>
+                                <h3 className="text-xl font-black font-display tracking-tight">{t('dashboard.vault.modalConvertTitle')}</h3>
                                 <p className="text-sm text-slate-400 font-medium truncate max-w-[300px]" title={selectedFileForConversion.original_filename}>
                                     {selectedFileForConversion.original_filename}
                                 </p>
@@ -471,7 +473,7 @@ export default function DashboardPage() {
                         </div>
 
                         <div className="space-y-3">
-                            <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-4">Select Target Format</p>
+                            <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-4">{t('dashboard.vault.selectFormat')}</p>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {getAvailableFormats(selectedFileForConversion.original_filename).map((format) => (
                                     <button
@@ -494,7 +496,7 @@ export default function DashboardPage() {
                         <div className="mt-10 p-4 bg-blue-500/5 border border-blue-500/10 rounded-2xl flex items-start gap-4">
                             <Lock className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
                             <p className="text-xs text-blue-300 font-medium leading-relaxed">
-                                Conversion is handled in our zero-knowledge backend. Your file remains encrypted at rest after processing.
+                                {t('dashboard.vault.convertDesc')}
                             </p>
                         </div>
                     </div>
@@ -519,8 +521,8 @@ export default function DashboardPage() {
                                 <Share2 className="w-8 h-8 text-[var(--accent)]" />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-black font-display tracking-tight">Vault Entry Shared</h3>
-                                <p className="text-sm text-slate-400 mt-2 font-medium">Anyone with this link can decrypt and download this file.</p>
+                                <h3 className="text-2xl font-black font-display tracking-tight">{t('dashboard.vault.shareTitle')}</h3>
+                                <p className="text-sm text-slate-400 mt-2 font-medium">{t('dashboard.vault.shareDesc')}</p>
                             </div>
                         </div>
 
@@ -529,12 +531,12 @@ export default function DashboardPage() {
                             <button
                                 onClick={handleCopyLink}
                                 className={`p-2 rounded-lg transition-all shrink-0 ${copied ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-white hover:bg-[var(--accent)] hover:text-white'}`}
-                                title="Copy Link"
+                                title={t('dashboard.vault.copyLink')}
                             >
                                 {copied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
                             </button>
                         </div>
-                        {copied && <p className="text-emerald-400 text-[10px] text-center uppercase tracking-widest font-black absolute mt-3 left-0 right-0 animate-in fade-in slide-in-from-top-1">Link Copied!</p>}
+                        {copied && <p className="text-emerald-400 text-[10px] text-center uppercase tracking-widest font-black absolute mt-3 left-0 right-0 animate-in fade-in slide-in-from-top-1">{t('dashboard.vault.linkCopied')}</p>}
                     </div>
                 </div>
             )}
@@ -548,21 +550,21 @@ export default function DashboardPage() {
                         <div className="bg-red-500/20 p-4 rounded-full inline-block mb-6">
                             <Trash2 className="w-8 h-8 text-red-500" />
                         </div>
-                        <h3 className="text-2xl font-black font-display tracking-tight text-white mb-2">Destroy File?</h3>
-                        <p className="text-sm text-slate-400 mb-8 font-medium">This action cannot be undone. The file will be permanently removed from your vault.</p>
+                        <h3 className="text-2xl font-black font-display tracking-tight text-white mb-2">{t('dashboard.vault.deleteTitle')}</h3>
+                        <p className="text-sm text-slate-400 mb-8 font-medium">{t('dashboard.vault.deleteDesc')}</p>
                         
                         <div className="flex gap-3">
                             <button 
                                 onClick={() => setDeleteModal(null)}
                                 className="flex-1 py-3 px-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition-all"
                             >
-                                Cancel
+                                {t('dashboard.vault.cancelBtn')}
                             </button>
                             <button 
                                 onClick={confirmDelete}
                                 className="flex-1 py-3 px-4 bg-red-500 hover:bg-red-600 text-white rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)]"
                             >
-                                Delete
+                                {t('dashboard.vault.deleteBtn')}
                             </button>
                         </div>
                     </div>

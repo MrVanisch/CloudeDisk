@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { api } from '@/lib/api';
 import { Shield, MessageCircle, Send, X, HardDrive, RefreshCw, Plus, Users } from 'lucide-react';
 import Link from 'next/link';
+import { useLanguage } from '@/lib/LanguageContext';
 
 interface UserItem {
     id: number;
@@ -32,6 +33,7 @@ interface Ticket {
 }
 
 export default function TicketsPage() {
+    const { t } = useLanguage();
     const { user, isAuthenticated, isLoading, checkAuth } = useAuthStore();
     const router = useRouter();
 
@@ -178,22 +180,22 @@ export default function TicketsPage() {
                 </Link>
                 <div className="h-6 border-l border-white/10 hidden sm:block"></div>
                 <div className="flex items-center gap-2 font-bold text-slate-200">
-                    <MessageCircle className="w-4 h-4 text-[var(--accent)]" /> Support Hub
+                    <MessageCircle className="w-4 h-4 text-[var(--accent)]" /> {t('dashboard.nav.supportHub')}
                 </div>
                 {user.is_superuser && (
                      <div className="flex items-center gap-2 text-red-400 font-bold ml-2 text-xs uppercase tracking-widest bg-red-500/10 px-2 py-1 rounded">
-                         <Shield className="w-3 h-3" /> Admin View
+                         <Shield className="w-3 h-3" /> {t('dashboard.nav.adminBadge')}
                      </div>
                 )}
                 
                 <div className="ml-auto flex items-center gap-4">
                     {user.is_superuser && (
                         <Link href="/dashboard/admin" className="text-xs font-bold text-slate-300 hover:text-red-400 transition-colors bg-white/5 py-1.5 px-3 rounded-lg flex items-center gap-2">
-                             Manage Users
+                             {t('dashboard.nav.manageUsers')}
                         </Link>
                     )}
                     <Link href="/dashboard" className="text-xs font-bold text-[var(--accent)] hover:text-white transition-colors bg-[var(--accent)]/10 py-1.5 px-3 rounded-lg">
-                        Back to Vault
+                        {t('dashboard.nav.backVault')}
                     </Link>
                 </div>
             </header>
@@ -202,7 +204,7 @@ export default function TicketsPage() {
                 {/* Tickets Sidebar */}
                 <div className="glass w-1/3 flex flex-col rounded-2xl overflow-hidden border-white/5 relative">
                     <div className="p-4 border-b border-white/5 flex items-center justify-between shrink-0 bg-white/5">
-                        <h3 className="font-black font-display tracking-tight text-lg">Your Tickets</h3>
+                        <h3 className="font-black font-display tracking-tight text-lg">{t('dashboard.tickets.title')}</h3>
                         <div className="flex gap-2">
                             <button onClick={loadTickets} className="p-2 text-slate-400 hover:text-[var(--accent)] transition-all rounded-lg hover:bg-white/5">
                                 <RefreshCw className="w-4 h-4" />
@@ -219,7 +221,7 @@ export default function TicketsPage() {
                         {tickets.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-center p-4">
                                 <MessageCircle className="w-10 h-10 text-slate-600 mb-2" />
-                                <p className="text-slate-400 font-medium text-sm">No tickets found.</p>
+                                <p className="text-slate-400 font-medium text-sm">{t('dashboard.tickets.noTickets')}</p>
                             </div>
                         ) : (
                             tickets.map(ticket => (
@@ -231,7 +233,7 @@ export default function TicketsPage() {
                                     <div className="flex items-center justify-between w-full">
                                         <span className="font-bold text-sm text-slate-200 truncate pr-2">{ticket.subject}</span>
                                         <span className={`text-[10px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${ticket.status === 'OPEN' ? 'text-blue-400 bg-blue-500/10' : 'text-slate-400 bg-white/10'}`}>
-                                            {ticket.status}
+                                            {ticket.status === 'OPEN' ? t('dashboard.tickets.statusOpen') : t('dashboard.tickets.statusClosed')}
                                         </span>
                                     </div>
                                     <span className="text-xs text-slate-500 font-mono">
@@ -258,14 +260,14 @@ export default function TicketsPage() {
                                         onClick={() => toggleTicketStatus(activeTicket.id, activeTicket.status)}
                                         className={`px-3 py-1.5 text-xs font-black uppercase tracking-widest rounded-lg transition-all ${activeTicket.status === 'OPEN' ? 'text-red-400 hover:bg-red-500/10' : 'text-emerald-400 hover:bg-emerald-500/10'}`}
                                     >
-                                        {activeTicket.status === 'OPEN' ? 'Close Ticket' : 'Reopen Ticket'}
+                                        {activeTicket.status === 'OPEN' ? t('dashboard.tickets.closeTicket') : t('dashboard.tickets.reopenTicket')}
                                     </button>
                                 )}
                             </div>
                             
                             <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
                                 {messages.length === 0 && (
-                                    <p className="text-center text-slate-500 text-sm mt-10">Say hello!</p>
+                                    <p className="text-center text-slate-500 text-sm mt-10">{t('dashboard.tickets.sayHello')}</p>
                                 )}
                                 {messages.map((msg, idx) => {
                                     const isMine = msg.sender_id === user.id;
@@ -297,7 +299,7 @@ export default function TicketsPage() {
                             <div className="p-4 border-t border-white/5 bg-white/5 shrink-0">
                                 {activeTicket.status === 'CLOSED' && !user.is_superuser ? (
                                     <div className="text-center p-3 bg-white/5 rounded-xl text-slate-400 text-sm">
-                                        This ticket has been closed. Please open a new one if you need further assistance.
+                                        {t('dashboard.tickets.ticketClosed')}
                                     </div>
                                 ) : (
                                     <form onSubmit={handleSendMessage} className="flex gap-2">
@@ -305,7 +307,7 @@ export default function TicketsPage() {
                                             type="text"
                                             value={newMessage}
                                             onChange={(e) => setNewMessage(e.target.value)}
-                                            placeholder="Type your message..."
+                                            placeholder={t('dashboard.tickets.typeReplyMsg')}
                                             className="input-field flex-1 !mb-0"
                                             disabled={sending}
                                         />
@@ -323,8 +325,8 @@ export default function TicketsPage() {
                     ) : (
                         <div className="h-full flex flex-col items-center justify-center text-slate-500/50 p-6 text-center">
                             <MessageCircle className="w-16 h-16 opacity-20 mb-4" />
-                            <h3 className="text-xl font-bold text-slate-400 mb-2">Select a Ticket</h3>
-                            <p className="text-sm">Choose a ticket from the sidebar to view the conversation, or create a new one.</p>
+                            <h3 className="text-xl font-bold text-slate-400 mb-2">{t('dashboard.tickets.selectTicket')}</h3>
+                            <p className="text-sm">{t('dashboard.tickets.selectDesc')}</p>
                         </div>
                     )}
                 </div>
@@ -341,23 +343,23 @@ export default function TicketsPage() {
                          >
                              <X className="w-5 h-5" />
                          </button>
-                         <h3 className="text-2xl font-black font-display tracking-tight mb-6">Create Support Ticket</h3>
+                         <h3 className="text-2xl font-black font-display tracking-tight mb-6">{t('dashboard.tickets.createTicket')}</h3>
                          <form onSubmit={handleCreateTicket} className="space-y-4">
                              <div>
                                  <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">
-                                     Subject
+                                     {t('dashboard.tickets.subjectLabel')}
                                  </label>
                                  <input
                                      type="text"
                                      required
                                      autoFocus
                                      className="input-field"
-                                     placeholder="Brief description of the issue"
+                                     placeholder={t('dashboard.tickets.subjectPlaceholder')}
                                      value={newSubject}
                                      onChange={(e) => setNewSubject(e.target.value)}
                                  />
                              </div>
-                             <button type="submit" className="btn-primary w-full py-3">Open Ticket</button>
+                             <button type="submit" className="btn-primary w-full py-3">{t('dashboard.tickets.openTicketBtn')}</button>
                          </form>
                     </div>
                 </div>

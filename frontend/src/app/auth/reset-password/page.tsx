@@ -5,8 +5,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { HardDrive, AlertCircle, CheckCircle2, RefreshCw } from 'lucide-react';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/lib/LanguageContext';
 
 function ResetPasswordForm() {
+    const { t } = useLanguage();
     const searchParams = useSearchParams();
     const router = useRouter();
     
@@ -40,7 +42,7 @@ function ResetPasswordForm() {
                 router.push('/auth/login');
             }, 2500);
         } catch (err: any) {
-            setError(err.response?.data?.detail || 'Invalid code or something went wrong.');
+            setError(err.response?.data?.detail || t('auth.login.error'));
         } finally {
             setIsLoading(false);
         }
@@ -64,14 +66,14 @@ function ResetPasswordForm() {
                             <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
                                 <CheckCircle2 className="w-8 h-8 text-emerald-500" />
                             </div>
-                            <h2 className="text-2xl font-black mb-2 font-display tracking-tight">Password Reset!</h2>
-                            <p className="text-sm text-slate-400 font-medium">Your vault is now secured with a new password.</p>
-                            <p className="text-xs text-slate-500 mt-4 animate-pulse">Redirecting to login...</p>
+                            <h2 className="text-2xl font-black mb-2 font-display tracking-tight">{t('auth.reset.successTitle')}</h2>
+                            <p className="text-sm text-slate-400 font-medium">{t('auth.reset.successDesc')}</p>
+                            <p className="text-xs text-slate-500 mt-4 animate-pulse">{t('auth.reset.redirecting')}</p>
                         </div>
                     ) : (
                         <>
-                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">Create New Password</h2>
-                            <p className="text-slate-400 text-center mb-8 font-medium">Enter the 6-digit recovery code from your email</p>
+                            <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">{t('auth.reset.title')}</h2>
+                            <p className="text-slate-400 text-center mb-8 font-medium">{t('auth.reset.subtitle')}</p>
 
                             {error && (
                                 <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl p-4 mb-6 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
@@ -83,14 +85,14 @@ function ResetPasswordForm() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="email">
-                                        Vault Email Vector
+                                        {t('auth.forgot.emailLabel')}
                                     </label>
                                     <input
                                         id="email"
                                         type="email"
                                         required
                                         className="input-field cursor-not-allowed opacity-60"
-                                        placeholder="name@company.com"
+                                        placeholder={t('auth.login.emailPlaceholder')}
                                         value={email}
                                         readOnly
                                     />
@@ -98,7 +100,7 @@ function ResetPasswordForm() {
 
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="code">
-                                        6-Digit Recovery Code
+                                        {t('auth.reset.codeLabel')}
                                     </label>
                                     <input
                                         id="code"
@@ -114,7 +116,7 @@ function ResetPasswordForm() {
 
                                 <div>
                                     <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="newPassword">
-                                        New Vault Password
+                                        {t('auth.reset.newPassLabel')}
                                     </label>
                                     <input
                                         id="newPassword"
@@ -122,11 +124,11 @@ function ResetPasswordForm() {
                                         required
                                         minLength={8}
                                         className="input-field"
-                                        placeholder="Min. 8 characters"
+                                        placeholder={t('auth.reset.newPassPlaceholder')}
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                     />
-                                    <p className="text-[10px] text-slate-600 mt-3 font-bold uppercase tracking-widest ml-1">Must be military-grade strength</p>
+                                    <p className="text-[10px] text-slate-600 mt-3 font-bold uppercase tracking-widest ml-1">{t('auth.reset.militaryGrade')}</p>
                                 </div>
 
                                 <button
@@ -138,14 +140,14 @@ function ResetPasswordForm() {
                                     {isLoading ? (
                                         <RefreshCw className="w-6 h-6 animate-spin" />
                                     ) : (
-                                        'Secure Vault & Login'
+                                        t('auth.reset.btnText')
                                     )}
                                 </button>
                             </form>
                             
                             <div className="mt-8 text-center text-sm">
                                 <Link href="/auth/login" className="text-slate-500 hover:text-white font-medium transition-colors">
-                                    Cancel Recovery
+                                    {t('auth.reset.cancel')}
                                 </Link>
                             </div>
                         </>

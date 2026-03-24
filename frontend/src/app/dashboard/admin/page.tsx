@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { api } from '@/lib/api';
 import { Shield, Trash2, Users, HardDrive, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
+import { useLanguage } from '@/lib/LanguageContext';
 
 interface UserItem {
     id: number;
@@ -17,6 +18,7 @@ interface UserItem {
 }
 
 export default function AdminDashboardPage() {
+    const { t } = useLanguage();
     const { user, isAuthenticated, isLoading, checkAuth } = useAuthStore();
     const router = useRouter();
 
@@ -93,10 +95,10 @@ export default function AdminDashboardPage() {
                 </div>
                 <div className="ml-auto flex items-center gap-4">
                      <Link href="/dashboard/tickets" className="text-xs font-bold text-slate-300 hover:text-white transition-colors bg-white/5 py-1.5 px-3 rounded-lg flex items-center gap-2">
-                        View Tickets
+                        {t('dashboard.nav.viewTickets')}
                      </Link>
                     <Link href="/dashboard" className="text-xs font-bold text-slate-400 hover:text-white transition-colors">
-                        Back to My Vault
+                        {t('dashboard.nav.backMyVault')}
                     </Link>
                 </div>
             </header>
@@ -106,12 +108,12 @@ export default function AdminDashboardPage() {
                     <div className="flex justify-between items-center mb-8">
                         <div>
                             <h2 className="text-2xl font-black font-display tracking-tight flex items-center gap-3">
-                                <Users className="w-6 h-6 text-red-400" /> User Management
+                                <Users className="w-6 h-6 text-red-400" /> {t('dashboard.admin.title')}
                             </h2>
-                            <p className="text-slate-400 text-sm mt-1">Manage platform users. Delete operations represent permanent data destruction.</p>
+                            <p className="text-slate-400 text-sm mt-1">{t('dashboard.admin.desc')}</p>
                         </div>
                         <button onClick={loadUsers} className="text-slate-400 hover:text-red-400 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 active:scale-95">
-                            <RefreshCw className="w-4 h-4" /> Refresh
+                            <RefreshCw className="w-4 h-4" /> {t('dashboard.admin.refresh')}
                         </button>
                     </div>
 
@@ -120,10 +122,10 @@ export default function AdminDashboardPage() {
                             <thead>
                                 <tr className="border-b border-white/5 text-xs font-black uppercase tracking-widest text-slate-500 bg-white/5">
                                     <th className="p-4">ID</th>
-                                    <th className="p-4">Email</th>
-                                    <th className="p-4 hidden sm:table-cell">Role</th>
-                                    <th className="p-4 hidden md:table-cell">Plan</th>
-                                    <th className="p-4 text-right">Actions</th>
+                                    <th className="p-4">{t('dashboard.admin.tableEmail')}</th>
+                                    <th className="p-4 hidden sm:table-cell">{t('dashboard.admin.tableRole')}</th>
+                                    <th className="p-4 hidden md:table-cell">{t('dashboard.admin.tablePlan')}</th>
+                                    <th className="p-4 text-right">{t('dashboard.admin.tableActions')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -133,9 +135,9 @@ export default function AdminDashboardPage() {
                                         <td className="p-4 font-bold text-slate-200">{u.email}</td>
                                         <td className="p-4 hidden sm:table-cell">
                                             {u.is_superuser ? (
-                                                <span className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0.5 rounded-full border border-red-500/20 font-black tracking-widest uppercase">Admin</span>
+                                                <span className="bg-red-500/10 text-red-400 text-[10px] px-2 py-0.5 rounded-full border border-red-500/20 font-black tracking-widest uppercase">{t('dashboard.admin.roleAdmin')}</span>
                                             ) : (
-                                                <span className="bg-blue-500/10 text-blue-400 text-[10px] px-2 py-0.5 rounded-full border border-blue-500/20 font-black tracking-widest uppercase">User</span>
+                                                <span className="bg-blue-500/10 text-blue-400 text-[10px] px-2 py-0.5 rounded-full border border-blue-500/20 font-black tracking-widest uppercase">{t('dashboard.admin.roleUser')}</span>
                                             )}
                                         </td>
                                         <td className="p-4 hidden md:table-cell">
@@ -155,7 +157,7 @@ export default function AdminDashboardPage() {
                                                 onClick={() => handleDeleteUser(u.id)}
                                                 disabled={u.id === user.id}
                                                 className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all active:scale-90 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
-                                                title={u.id === user.id ? "Cannot delete yourself" : "Delete User"}
+                                                title={u.id === user.id ? t('dashboard.admin.cannotDeleteSelf') : "Delete"}
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>

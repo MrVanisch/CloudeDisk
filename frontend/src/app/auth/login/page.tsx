@@ -6,8 +6,10 @@ import Link from 'next/link';
 import { HardDrive, AlertCircle, RefreshCw } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { api } from '@/lib/api';
+import { useLanguage } from '@/lib/LanguageContext';
 
 export default function LoginPage() {
+    const { t } = useLanguage();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -21,7 +23,6 @@ export default function LoginPage() {
         setIsLoading(true);
 
         try {
-            // FastAPI OAuth2PasswordBearer expects form data (x-www-form-urlencoded)
             const params = new URLSearchParams();
             params.append('username', email); 
             params.append('password', password);
@@ -34,9 +35,9 @@ export default function LoginPage() {
             router.push('/dashboard');
         } catch (err: any) {
             if (err.response?.status === 400 || err.response?.status === 401) {
-                setError('Invalid email or password');
+                setError(t('auth.login.invalidCreds'));
             } else {
-                setError('Something went wrong. Please try again.');
+                setError(t('auth.login.error'));
             }
         } finally {
             setIsLoading(false);
@@ -55,8 +56,8 @@ export default function LoginPage() {
 
                 <div className="glass p-8 md:p-12 relative overflow-hidden animate-in">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)]/5 blur-3xl -z-10" />
-                    <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">Welcome back</h2>
-                    <p className="text-slate-400 text-center mb-10 font-medium">Sign in to your secure storage</p>
+                    <h2 className="text-3xl font-black text-center mb-2 font-display tracking-tight">{t('auth.login.title')}</h2>
+                    <p className="text-slate-400 text-center mb-10 font-medium">{t('auth.login.subtitle')}</p>
 
                     {error && (
                         <div className="bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl p-4 mb-8 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
@@ -68,14 +69,14 @@ export default function LoginPage() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1" htmlFor="email">
-                                Email Address
+                                {t('auth.login.emailLabel')}
                             </label>
                             <input
                                 id="email"
                                 type="email"
                                 required
                                 className="input-field"
-                                placeholder="name@company.com"
+                                placeholder={t('auth.login.emailPlaceholder')}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -84,7 +85,7 @@ export default function LoginPage() {
                         <div>
                             <div className="flex items-center justify-between mb-2 ml-1">
                                 <label className="block text-xs font-black uppercase tracking-widest text-slate-500" htmlFor="password">
-                                    Password
+                                    {t('auth.login.passLabel')}
                                 </label>
                             </div>
                             <input
@@ -92,7 +93,7 @@ export default function LoginPage() {
                                 type="password"
                                 required
                                 className="input-field"
-                                placeholder="••••••••"
+                                placeholder={t('auth.login.passPlaceholder')}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
@@ -107,21 +108,21 @@ export default function LoginPage() {
                             {isLoading ? (
                                 <RefreshCw className="w-6 h-6 animate-spin" />
                             ) : (
-                                'Sign In to Vault'
+                                t('auth.login.btnText')
                             )}
                         </button>
                         
                         <div className="text-center mt-3">
                             <Link href="/auth/forgot-password" className="text-xs font-bold text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
-                                Lost access? Reset Password
+                                {t('auth.login.forgotPass')}
                             </Link>
                         </div>
                     </form>
 
                     <div className="mt-10 text-center text-sm text-slate-500 font-medium">
-                        Don't have an account?{' '}
+                        {t('auth.login.noAccountDesc')}
                         <Link href="/auth/register" className="text-[var(--accent)] hover:text-[var(--accent-hover)] font-black transition-colors">
-                            Join CloudVault
+                            {t('auth.login.joinLink')}
                         </Link>
                     </div>
                 </div>
