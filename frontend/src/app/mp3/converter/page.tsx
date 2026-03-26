@@ -117,10 +117,10 @@ export default function PublicConverterPage() {
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
           <Link href="/auth/login" className="text-sm font-semibold hover:text-[var(--accent)] transition-colors px-3 py-2 rounded-lg hover:bg-white/5">
-            {t('nav.login')}
+            {t('header.login')}
           </Link>
           <Link href="/auth/register" className="btn-primary text-sm shadow-xl hidden xs:flex">
-            {t('nav.getStarted')}
+            {t('header.getStarted')}
           </Link>
         </div>
       </header>
@@ -135,10 +135,10 @@ export default function PublicConverterPage() {
             <Zap className="w-4 h-4" /> {t('converter.badge')}
           </div>
           <h1 className="text-5xl md:text-6xl font-black tracking-tighter mb-4 font-display">
-            Fast MP4 to MP3 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-purple-400">Converter</span>
+            {t('converter.title1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent)] to-purple-400">{t('converter.title2')}</span>
           </h1>
           <p className="text-lg text-slate-400 font-medium max-w-lg mx-auto">
-            {t('converter.subtitle')}
+            {t('converter.desc')}
           </p>
         </div>
 
@@ -158,8 +158,8 @@ export default function PublicConverterPage() {
                 <UploadCloud className="w-10 h-10 text-[var(--accent)]" />
               </div>
               <div>
-                <p className="text-xl font-bold font-display mb-1">{t('converter.uploadPrompt')}</p>
-                <p className="text-slate-400 text-sm">{t('converter.uploadLimit')}</p>
+                <p className="text-xl font-bold font-display mb-1">{t('converter.dropTitle')}</p>
+                <p className="text-slate-400 text-sm">{t('converter.dropDesc')}</p>
               </div>
             </div>
           )}
@@ -170,7 +170,7 @@ export default function PublicConverterPage() {
                 <Music className="w-10 h-10 text-indigo-400" />
               </div>
               <h3 className="text-2xl font-bold mb-2 font-display break-all">{file.name}</h3>
-              <p className="text-slate-400 mb-8">{t('converter.readyStatus')} {(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+              <p className="text-slate-400 mb-8">{t('converter.readyLabel')} - {(file.size / (1024 * 1024)).toFixed(2)} MB</p>
               
               <div className="flex gap-4 w-full">
                 <button 
@@ -196,7 +196,7 @@ export default function PublicConverterPage() {
             <div className="flex flex-col items-center justify-center py-12 text-center animate-in">
               <Loader2 className="w-16 h-16 text-[var(--accent)] animate-spin mb-6" />
               <h3 className="text-2xl font-bold mb-2 font-display">{t('converter.extracting')}</h3>
-              <p className="text-slate-400">{t('converter.processingMsg')}</p>
+              <p className="text-slate-400">{t('converter.waitingText')}</p>
             </div>
           )}
 
@@ -205,7 +205,7 @@ export default function PublicConverterPage() {
               <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6 border border-emerald-500/30 shadow-[0_0_40px_rgba(16,185,129,0.3)]">
                 <Check className="w-12 h-12 text-emerald-400" />
               </div>
-              <h3 className="text-3xl font-black mb-4 font-display text-emerald-400">{t('converter.successTitle')}</h3>
+              <h3 className="text-3xl font-black mb-4 font-display text-emerald-400">{t('converter.success')}</h3>
               <p className="text-slate-300 mb-8 text-lg">{t('converter.successDesc')}</p>
               
               <button 
@@ -236,7 +236,7 @@ export default function PublicConverterPage() {
         {/* Security / Privacy Banner */}
         <div className="mt-16 flex items-center gap-3 text-slate-500 text-sm bg-black/30 px-6 py-3 rounded-full border border-white/5 animate-in delay-3">
           <Check className="w-4 h-4 text-emerald-500" /> 
-          {t('converter.privacyNote')}
+          {t('converter.privacyBanner')}
         </div>
       </main>
     </div>

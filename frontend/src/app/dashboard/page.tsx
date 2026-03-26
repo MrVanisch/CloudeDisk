@@ -94,7 +94,7 @@ export default function DashboardPage() {
             checkAuth();
             loadFiles();
         } catch (err: any) {
-            alert(err.response?.data?.detail || 'Upload failed');
+            alert(err.response?.data?.detail || t('dashboard.vault.uploadFailed'));
         } finally {
             setIsUploading(false);
             setUploadProgress(0);
@@ -124,7 +124,7 @@ export default function DashboardPage() {
             link.click();
             link.parentNode?.removeChild(link);
         } catch (err) {
-            alert('Failed to download file');
+            alert(t('dashboard.vault.downloadFailed'));
         } finally {
             setDownloadingId(null);
             setDownloadProgress(0);
@@ -140,7 +140,7 @@ export default function DashboardPage() {
             loadFiles();
             setDeleteModal(null);
         } catch (err) {
-            alert('Failed to delete file');
+            alert(t('dashboard.vault.deleteFailed'));
         }
     };
 
@@ -162,7 +162,7 @@ export default function DashboardPage() {
                 setCopied(false);
             }
         } catch (err) {
-            alert('Failed to update share settings');
+            alert(t('dashboard.vault.shareFailed'));
         }
     };
 
@@ -195,7 +195,7 @@ export default function DashboardPage() {
                 setCopied(false);
             }, 2000);
         } catch (err) {
-            alert("Failed to copy link");
+            alert(t('dashboard.vault.copyFailed'));
         }
     };
 
@@ -216,7 +216,7 @@ export default function DashboardPage() {
             // No alert here, the UI will show processing status via loadFiles
             loadFiles();
         } catch (err: any) {
-            alert(err.response?.data?.detail || 'Failed to start conversion');
+            alert(err.response?.data?.detail || t('dashboard.vault.conversionStartFailed'));
         } finally {
             setConvertingId(null);
             setSelectedFileForConversion(null);
@@ -229,7 +229,7 @@ export default function DashboardPage() {
         // Strictly allow only MP4 -> MP3 for now as per requirements
         if (ext === 'mp4') {
             return [
-                { id: 'mp3', label: 'MP3 Extract', icon: <MusicIcon className="w-4 h-4" /> },
+                { id: 'mp3', label: t('dashboard.vault.mp3Extract'), icon: <MusicIcon className="w-4 h-4" /> },
             ];
         }
 
@@ -418,7 +418,7 @@ export default function DashboardPage() {
                                                 <button
                                                     onClick={() => handleShare(file.id, !!file.share_token)}
                                                     className={`p-2.5 rounded-xl transition-all active:scale-90 ${file.share_token ? 'text-[var(--accent)] bg-[var(--accent)]/10 hover:bg-red-500/10 hover:text-red-400' : 'text-slate-400 hover:text-[var(--accent)] hover:bg-white/5'}`}
-                                                    title={file.share_token ? "Revoke Access" : "Create Share Link"}
+                                                    title={file.share_token ? t('dashboard.vault.revokeAccess') : t('dashboard.vault.createShareLink')}
                                                 >
                                                     {file.share_token ? <X className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
                                                 </button>
@@ -426,7 +426,7 @@ export default function DashboardPage() {
                                                     onClick={() => handleDownload(file.id, file.original_filename)}
                                                     disabled={downloadingId === file.id}
                                                     className={`p-2.5 hover:bg-white/5 rounded-xl transition-all active:scale-90 ${downloadingId === file.id ? 'text-emerald-500' : 'text-slate-400 hover:text-white'}`}
-                                                    title="Decrypt & Download"
+                                                    title={t('dashboard.vault.decryptDownload')}
                                                 >
                                                     <Download className={`w-4 h-4 ${downloadingId === file.id ? 'animate-bounce' : ''}`} />
                                                 </button>

@@ -152,7 +152,17 @@ export const translations: Record<Language, Dictionary> = {
         deleteTitle: 'Destroy File?',
         deleteDesc: 'This action cannot be undone. The file will be permanently removed from your vault.',
         cancelBtn: 'Cancel',
-        deleteBtn: 'Delete'
+        deleteBtn: 'Delete',
+        mp3Extract: 'MP3 Extract',
+        revokeAccess: 'Revoke Access',
+        createShareLink: 'Create Share Link',
+        decryptDownload: 'Decrypt & Download',
+        uploadFailed: 'Upload failed.',
+        downloadFailed: 'Failed to download file.',
+        deleteFailed: 'Failed to delete file.',
+        shareFailed: 'Failed to update share settings.',
+        copyFailed: 'Failed to copy link.',
+        conversionStartFailed: 'Failed to start conversion.'
       },
       admin: {
         title: 'User Management',
@@ -164,7 +174,15 @@ export const translations: Record<Language, Dictionary> = {
         tableActions: 'Actions',
         roleAdmin: 'Admin',
         roleUser: 'User',
-        cannotDeleteSelf: 'Cannot delete yourself'
+        cannotDeleteSelf: 'Cannot delete yourself',
+        confirmDeleteUser: 'Are you ABSOLUTELY sure? This will delete the user and all their files.',
+        deleteUserFailed: 'Failed to delete user',
+        updatePlanFailed: 'Failed to update plan',
+        validatedSuperuser: 'Validated Superuser',
+        planFree: 'Free',
+        planPremium: 'Premium',
+        planPro: 'Pro',
+        deleteTooltip: 'Delete'
       },
       tickets: {
         title: 'Your Tickets',
@@ -180,7 +198,9 @@ export const translations: Record<Language, Dictionary> = {
         typeReplyMsg: 'Type a reply...',
         sayHello: 'Say hello!',
         selectTicket: 'Select a Ticket',
-        selectDesc: 'Choose a ticket from the sidebar to view the conversation, or create a new one.'
+        selectDesc: 'Choose a ticket from the sidebar to view the conversation, or create a new one.',
+        statusOpen: 'OPEN',
+        statusClosed: 'CLOSED'
       }
     },
     supportGuest: {
@@ -227,7 +247,10 @@ export const translations: Record<Language, Dictionary> = {
       success: 'Success!',
       successDesc: 'Your MP3 file has been downloaded successfully.',
       convertAnother: 'Convert Another File',
-      privacyBanner: 'Safe & Private: Your files are processed in-memory and deleted immediately.'
+      privacyBanner: 'Safe & Private: Your files are processed in-memory and deleted immediately.',
+      fileTooLarge: 'File is too large. Maximum size is 100MB.',
+      unsupportedFormat: 'Unsupported format. Only MP4 files are allowed.',
+      conversionFailed: 'Conversion failed. Please try again.'
     }
   },
   pl: {
@@ -246,7 +269,7 @@ export const translations: Record<Language, Dictionary> = {
     },
     features: {
       securityTitle: 'Absolutne Bezpieczeństwo',
-      securityDesc: 'Symetryczne szyfrowanie Fernet klasy wojskowej gwarantuje, że nikt poza Tobą nie ma dostępu do Twoich pików.',
+      securityDesc: 'Symetryczne szyfrowanie Fernet klasy wojskowej gwarantuje, że nikt poza Tobą nie ma dostępu do Twoich plików.',
       cloudTitle: 'Konwersje w Chmurze',
       cloudDesc: 'Konwertuj MP4 na GIF-y, zmieniaj rozmiar zdjęć lub wyodrębniaj dźwięk dynamicznie, nie obciążając swojego komputera.',
       sharingTitle: 'Bezpieczne Udostępnianie',
@@ -377,7 +400,17 @@ export const translations: Record<Language, Dictionary> = {
         deleteTitle: 'Zniszczyć Plik?',
         deleteDesc: 'Tej akcji nie można cofnąć. Plik zostanie trwale usunięty z Twojego skarbca.',
         cancelBtn: 'Anuluj',
-        deleteBtn: 'Usuń'
+        deleteBtn: 'Usuń',
+        mp3Extract: 'Wyodrębnij MP3',
+        revokeAccess: 'Cofnij Dostęp',
+        createShareLink: 'Utwórz Link Udostępniania',
+        decryptDownload: 'Odszyfruj i Pobierz',
+        uploadFailed: 'Przesyłanie nie powiodło się.',
+        downloadFailed: 'Pobieranie pliku nie powiodło się.',
+        deleteFailed: 'Nie udało się usunąć pliku.',
+        shareFailed: 'Nie udało się zaktualizować ustawień udostępniania.',
+        copyFailed: 'Nie udało się skopiować linku.',
+        conversionStartFailed: 'Nie udało się rozpocząć konwersji.'
       },
       admin: {
         title: 'Zarządzanie Użytkownikami',
@@ -389,7 +422,15 @@ export const translations: Record<Language, Dictionary> = {
         tableActions: 'Akcje',
         roleAdmin: 'Admin',
         roleUser: 'Użytk.',
-        cannotDeleteSelf: 'Nie możesz usunąć siebie'
+        cannotDeleteSelf: 'Nie możesz usunąć siebie',
+        confirmDeleteUser: 'Czy jesteś ABSOLUTNIE pewien? To usunie użytkownika i wszystkie jego pliki.',
+        deleteUserFailed: 'Nie udało się usunąć użytkownika',
+        updatePlanFailed: 'Nie udało się zaktualizować planu',
+        validatedSuperuser: 'Zweryfikowany Administrator',
+        planFree: 'Darmowy',
+        planPremium: 'Premium',
+        planPro: 'Pro',
+        deleteTooltip: 'Usuń'
       },
       tickets: {
         title: 'Twoje Zgłoszenia',
@@ -405,7 +446,9 @@ export const translations: Record<Language, Dictionary> = {
         typeReplyMsg: 'Wpisz odpowiedź...',
         sayHello: 'Przywitaj się!',
         selectTicket: 'Wybierz Zgłoszenie',
-        selectDesc: 'Wybierz zgłoszenie z paska bocznego, aby zobaczyć rozmowę, lub utwórz nowe.'
+        selectDesc: 'Wybierz zgłoszenie z paska bocznego, aby zobaczyć rozmowę, lub utwórz nowe.',
+        statusOpen: 'OTWARTE',
+        statusClosed: 'ZAMKNIĘTE'
       }
     },
     supportGuest: {
@@ -415,7 +458,7 @@ export const translations: Record<Language, Dictionary> = {
       cardOpenDesc: 'Mam nowy problem lub pytanie, które wymaga uwagi.',
       cardCheckTitle: 'Sprawdź Zgłoszenie',
       cardCheckDesc: 'Mam swój bezpieczny token i chcę zobaczyć odpowiedzi.',
-      back: 'Wróc',
+      back: 'Wróć',
       createTitle: 'Utwórz Zgłoszenie',
       createDesc: 'Zazwyczaj odpowiadamy w ciągu 24 godzin.',
       emailLabel: 'Adres Email',
@@ -441,7 +484,7 @@ export const translations: Record<Language, Dictionary> = {
       badge: '100% Darmowe Narzędzie',
       title1: 'Szybki Konwerter',
       title2: 'MP4 do MP3',
-      desc: 'Szybko wyodrębnij dźwięk w wysokiej jakości z plików wideo. Pliki nie są trzymaczne na naszych serwerach.',
+      desc: 'Szybko wyodrębnij dźwięk w wysokiej jakości z plików wideo. Pliki nie są przechowywane na naszych serwerach.',
       dropTitle: 'Kliknij aby przesłać lub przeciągnij i upuść',
       dropDesc: 'Tylko pliki .MP4 do 100MB są obsługiwane',
       readyLabel: 'Gotowy do konwersji off-chain',
@@ -452,7 +495,10 @@ export const translations: Record<Language, Dictionary> = {
       success: 'Sukces!',
       successDesc: 'Twój plik MP3 został pobrany pomyślnie.',
       convertAnother: 'Konwertuj Następny Plik',
-      privacyBanner: 'Bezpieczne i Prywatne: Twoje pliki są przetwarzane w pamięci i natychmiast usuwane.'
+      privacyBanner: 'Bezpieczne i Prywatne: Twoje pliki są przetwarzane w pamięci i natychmiast usuwane.',
+      fileTooLarge: 'Plik jest zbyt duży. Maksymalny rozmiar to 100MB.',
+      unsupportedFormat: 'Nieobsługiwany format. Dozwolone są tylko pliki MP4.',
+      conversionFailed: 'Konwersja nie powiodła się. Spróbuj ponownie.'
     }
   }
 };

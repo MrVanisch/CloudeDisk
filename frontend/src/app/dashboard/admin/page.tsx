@@ -54,13 +54,13 @@ export default function AdminDashboardPage() {
     };
 
     const handleDeleteUser = async (userId: number) => {
-        if (!confirm('Are you ABSOLUTELY sure? This will delete the user and all their files.')) return;
+        if (!confirm(t('dashboard.admin.confirmDeleteUser'))) return;
 
         try {
             await api.delete(`/admin/users/${userId}`);
             loadUsers();
         } catch (err: any) {
-            alert(err.response?.data?.detail || 'Failed to delete user');
+            alert(err.response?.data?.detail || t('dashboard.admin.deleteUserFailed'));
         }
     };
 
@@ -69,7 +69,7 @@ export default function AdminDashboardPage() {
             await api.patch(`/admin/users/${userId}/plan`, { plan_id: newPlanId });
             loadUsers();
         } catch (err: any) {
-            alert(err.response?.data?.detail || 'Failed to update plan');
+            alert(err.response?.data?.detail || t('dashboard.admin.updatePlanFailed'));
         }
     };
 
@@ -91,7 +91,7 @@ export default function AdminDashboardPage() {
                 </Link>
                 <div className="h-6 border-l border-white/10 hidden sm:block"></div>
                 <div className="flex items-center gap-2 text-red-400 font-bold">
-                    <Shield className="w-4 h-4" /> Validated Superuser
+                    <Shield className="w-4 h-4" /> {t('dashboard.admin.validatedSuperuser')}
                 </div>
                 <div className="ml-auto flex items-center gap-4">
                      <Link href="/dashboard/tickets" className="text-xs font-bold text-slate-300 hover:text-white transition-colors bg-white/5 py-1.5 px-3 rounded-lg flex items-center gap-2">
@@ -147,9 +147,9 @@ export default function AdminDashboardPage() {
                                                 onChange={(e) => handleUpdatePlan(u.id, parseInt(e.target.value))}
                                                 disabled={u.is_superuser}
                                             >
-                                                <option value={1}>Free</option>
-                                                <option value={2}>Premium</option>
-                                                <option value={3}>Premium Plus</option>
+                                                <option value={1}>{t('dashboard.admin.planFree')}</option>
+                                                <option value={2}>{t('dashboard.admin.planPremium')}</option>
+                                                <option value={3}>{t('dashboard.admin.planPro')}</option>
                                             </select>
                                         </td>
                                         <td className="p-4 text-right">
@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
                                                 onClick={() => handleDeleteUser(u.id)}
                                                 disabled={u.id === user.id}
                                                 className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all active:scale-90 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
-                                                title={u.id === user.id ? t('dashboard.admin.cannotDeleteSelf') : "Delete"}
+                                                title={u.id === user.id ? t('dashboard.admin.cannotDeleteSelf') : t('dashboard.admin.deleteTooltip')}
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>

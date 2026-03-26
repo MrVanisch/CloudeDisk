@@ -136,8 +136,8 @@ export default function SupportGuestPage() {
                     <div className="glass p-10 rounded-3xl relative overflow-hidden animate-in zoom-in-95">
                         <div className="absolute -top-32 -right-32 w-64 h-64 bg-[var(--accent)]/10 blur-[100px] rounded-full point-events-none" />
                         <div className="text-center mb-10">
-                            <h1 className="text-4xl font-black font-display tracking-tight mb-4">{t('support.title')}</h1>
-                            <p className="text-slate-400 font-medium">{t('support.subtitle')}</p>
+                            <h1 className="text-4xl font-black font-display tracking-tight mb-4">{t('supportGuest.selectTitle')}</h1>
+                            <p className="text-slate-400 font-medium">{t('supportGuest.selectSubtitle')}</p>
                         </div>
 
                         <div className="grid sm:grid-cols-2 gap-4">
@@ -149,8 +149,8 @@ export default function SupportGuestPage() {
                                     <MessageCircle className="w-6 h-6" />
                                 </div>
                                 <div className="text-center">
-                                    <h3 className="font-bold text-lg mb-1">{t('support.openNewTitle')}</h3>
-                                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t('support.openNewDesc')}</p>
+                                    <h3 className="font-bold text-lg mb-1">{t('supportGuest.cardOpenTitle')}</h3>
+                                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t('supportGuest.cardOpenDesc')}</p>
                                 </div>
                             </button>
 
@@ -162,8 +162,8 @@ export default function SupportGuestPage() {
                                     <Key className="w-6 h-6" />
                                 </div>
                                 <div className="text-center">
-                                    <h3 className="font-bold text-lg mb-1">{t('support.checkExistingTitle')}</h3>
-                                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t('support.checkExistingDesc')}</p>
+                                    <h3 className="font-bold text-lg mb-1">{t('supportGuest.cardCheckTitle')}</h3>
+                                    <p className="text-xs text-slate-400 font-medium leading-relaxed">{t('supportGuest.cardCheckDesc')}</p>
                                 </div>
                             </button>
                         </div>
@@ -174,38 +174,38 @@ export default function SupportGuestPage() {
                 {mode === 'CREATE' && (
                     <div className="glass p-10 rounded-3xl relative overflow-hidden animate-in slide-in-from-bottom-4">
                         <button onClick={() => setMode('SELECT')} className="text-xs font-bold text-slate-500 uppercase tracking-widest hover:text-white transition-colors mb-8 flex items-center gap-2">
-                             &larr; {t('support.backBtn')}
+                             &larr; {t('supportGuest.back')}
                         </button>
-                        <h2 className="text-3xl font-black font-display tracking-tight mb-2">{t('support.createTicketTitle')}</h2>
-                        <p className="text-slate-400 font-medium mb-8">{t('support.createTicketDesc')}</p>
+                        <h2 className="text-3xl font-black font-display tracking-tight mb-2">{t('supportGuest.createTitle')}</h2>
+                        <p className="text-slate-400 font-medium mb-8">{t('supportGuest.createDesc')}</p>
 
                         {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm font-bold border border-red-500/20">{error}</div>}
 
                         <form onSubmit={handleCreateTicket} className="space-y-5">
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('support.emailLabel')}</label>
+                                <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('supportGuest.emailLabel')}</label>
                                 <input 
                                     type="email" 
                                     required 
                                     className="input-field" 
-                                    placeholder={t('support.emailPlaceholder')}
+                                    placeholder={t('supportGuest.emailPlc')}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('support.issueLabel')}</label>
+                                <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('supportGuest.subjLabel')}</label>
                                 <input 
                                     type="text" 
                                     required 
                                     className="input-field" 
-                                    placeholder={t('support.issuePlaceholder')}
+                                    placeholder={t('supportGuest.subjPlc')}
                                     value={subject}
                                     onChange={(e) => setSubject(e.target.value)}
                                 />
                             </div>
                             <button type="submit" disabled={loading} className="btn-primary w-full py-4 mt-4 flex items-center justify-center gap-2 disabled:opacity-50">
-                                {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <>{t('support.submitBtn')} <ArrowRight className="w-4 h-4" /></>}
+                                {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <>{t('supportGuest.submitBtn')} <ArrowRight className="w-4 h-4" /></>}
                             </button>
                         </form>
                     </div>
@@ -219,40 +219,40 @@ export default function SupportGuestPage() {
                                 <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <Shield className="w-8 h-8 text-emerald-400" />
                                 </div>
-                                <h2 className="text-3xl font-black font-display tracking-tight mb-2 text-white">{t('support.ticketCreatedTitle')}</h2>
-                                <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('support.ticketCreatedDesc')}</p>
+                                <h2 className="text-3xl font-black font-display tracking-tight mb-2 text-white">{t('supportGuest.successTitle')}</h2>
+                                <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('supportGuest.successDesc')}</p>
                                 
                                 <div className="bg-black/50 border border-white/10 rounded-2xl p-6 mb-8 relative group">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 absolute -top-2 bg-[var(--background)] px-2 left-6">{t('support.accessTokenLabel')}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 absolute -top-2 bg-[var(--background)] px-2 left-6">{t('supportGuest.accessToken')}</p>
                                     <span className="font-mono text-xl text-[var(--accent)] font-bold select-all">{token}</span>
                                 </div>
 
-                                <button onClick={() => setMode('CHAT')} className="btn-primary px-8 py-3">{t('support.enterChatBtn')}</button>
+                                <button onClick={() => setMode('CHAT')} className="btn-primary px-8 py-3">{t('supportGuest.enterChatBtn')}</button>
                             </div>
                         ) : (
                             <div>
                                 <button onClick={() => setMode('SELECT')} className="text-xs font-bold text-slate-500 uppercase tracking-widest hover:text-white transition-colors mb-8 flex items-center gap-2">
-                                     &larr; {t('support.backBtn')}
+                                     &larr; {t('supportGuest.back')}
                                 </button>
-                                <h2 className="text-3xl font-black font-display tracking-tight mb-2 text-left">{t('support.accessTicketTitle')}</h2>
-                                <p className="text-slate-400 font-medium mb-8 text-left">{t('support.accessTicketDesc')}</p>
+                                <h2 className="text-3xl font-black font-display tracking-tight mb-2 text-left">{t('supportGuest.accessTitle')}</h2>
+                                <p className="text-slate-400 font-medium mb-8 text-left">{t('supportGuest.accessDesc')}</p>
 
                                 {error && <div className="bg-red-500/10 text-red-400 p-3 rounded-lg mb-6 text-sm font-bold border border-red-500/20 text-left">{error}</div>}
 
                                 <form onSubmit={handleAccessTicket} className="space-y-5 text-left">
                                     <div>
-                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('support.secureTokenLabel')}</label>
+                                        <label className="block text-xs font-black uppercase tracking-widest text-slate-500 mb-2 ml-1">{t('supportGuest.tokenLabel')}</label>
                                         <input 
                                             type="text" 
                                             required 
                                             className="input-field font-mono" 
-                                            placeholder={t('support.secureTokenPlaceholder')}
+                                            placeholder={t('supportGuest.tokenPlc')}
                                             value={token}
                                             onChange={(e) => setToken(e.target.value)}
                                         />
                                     </div>
                                     <button type="submit" disabled={loading} className="btn-primary w-full py-4 mt-4 flex items-center justify-center gap-2 disabled:opacity-50">
-                                        {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <>{t('support.accessChatBtn')} <ArrowRight className="w-4 h-4" /></>}
+                                        {loading ? <RefreshCw className="w-5 h-5 animate-spin" /> : <>{t('supportGuest.accessBtn')} <ArrowRight className="w-4 h-4" /></>}
                                     </button>
                                 </form>
                             </div>
@@ -272,13 +272,13 @@ export default function SupportGuestPage() {
                                 </p>
                             </div>
                             <button onClick={() => { setMode('SELECT'); setActiveTicket(null); setToken(''); }} className="text-xs font-black bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap ml-4">
-                                {t('support.exitChatBtn')}
+                                {t('supportGuest.exitBtn')}
                             </button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
                              {messages.length === 0 && (
-                                <p className="text-center text-slate-500 text-sm mt-10">{t('support.waitingReply')}</p>
+                                <p className="text-center text-slate-500 text-sm mt-10">{t('supportGuest.waitingMsg')}</p>
                             )}
                             {messages.map((msg, idx) => {
                                 // Since we are not logged in, 'mine' is if the message was sent by a guest.
@@ -312,13 +312,13 @@ export default function SupportGuestPage() {
                         <div className="p-4 sm:p-6 border-t border-white/10 bg-black/20 shrink-0">
                             {activeTicket.status === 'CLOSED' ? (
                                 <div className="text-center text-slate-400 text-sm font-medium py-2">
-                                    {t('dashboard.tickets.ticketClosed')}
+                                    {t('supportGuest.closedMsg')}
                                 </div>
                             ) : (
                                 <form onSubmit={handleSendMessage} className="flex gap-3">
                                     <input 
                                         type="text" 
-                                        placeholder={t('dashboard.tickets.typeReplyMsg')} 
+                                        placeholder={t('supportGuest.typeReplyPlc')} 
                                         className="input-field flex-1 !mb-0 rounded-2xl"
                                         value={newMessage}
                                         onChange={e => setNewMessage(e.target.value)}
